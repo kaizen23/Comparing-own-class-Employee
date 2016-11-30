@@ -26,20 +26,32 @@ namespace Comparing_Employee
                 return obj.Name.GetHashCode();
             }
         }
+        public class DepartmentCollection : SortedDictionary<string, SortedSet<Employee>>
+        {
+                public DepartmentCollection Add(string departmentName, Employee employee)
+            {
+                if (!ContainsKey(departmentName))
+                {
+                    Add(departmentName, new SortedSet<Employee>(new EmployeeCompare()));
+                }
+                this[departmentName].Add(employee);
+                return this;
+            }
+        }
         static void Main(string[] args)
         {
-            var departments = new SortedDictionary<string, SortedSet<Employee>>();
+            var departments = new DepartmentCollection();
 
-            departments.Add("Sales", new SortedSet<Employee>(new EmployeeCompare()));
-            departments["Sales"].Add(new Employee { Name = "Joy" });
-            departments["Sales"].Add(new Employee { Name = "Scott" });
-            departments["Sales"].Add(new Employee { Name = "Jain"});
+            
+            departments.Add("Sales",new Employee { Name = "Joy" })
+                       .Add("Sales",new Employee { Name = "Scott" })
+                       .Add("Sales",new Employee { Name = "Jain"});
 
-            departments.Add("Engineering", new SortedSet<Employee>(new EmployeeCompare()));
-            departments["Engineering"].Add(new Employee { Name = "Tony" });
-            departments["Engineering"].Add(new Employee { Name = "Adam" });
-            departments["Engineering"].Add(new Employee { Name = "Jain" });
-            departments["Engineering"].Add(new Employee { Name = "Jain" });
+            
+            departments.Add("Engineering",new Employee { Name = "Tony" })
+                       .Add("Engineering",new Employee { Name = "Adam" })
+                       .Add("Engineering",new Employee { Name = "Jain" })
+                       .Add("Engineering",new Employee { Name = "Jain" });
 
 
 
